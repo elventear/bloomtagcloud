@@ -9,11 +9,17 @@ class GeonamesClientTests {
     @Test
     void testnumZipCodesForPlace() {
         def client = new GeonamesClient('elventear')
-        def result = client.numZipCodesForPlace('MN')
+        def numZipCodesForPlace = {
+                def result = client.numZipCodesForPlace(it)
+                while ( ! result.done ) {
+                    Thread.sleep(500)
+                }
+                result.get()
+            }
 
-        while ( ! result.done ) {
-            Thread.sleep(500)
-        }
-        assert result.get() == 1084
+        // Zip codes for Minnesota according to Geonames
+        assert numZipCodesForPlace('MN') == 1084
+        // Unknwon place
+        assert numZipCodesForPlace('ajsdakjdaklsdjaksdjklasd') == 0
     }
 }
