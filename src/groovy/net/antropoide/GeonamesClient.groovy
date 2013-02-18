@@ -7,27 +7,21 @@ import static groovyx.net.http.Method.*
 
 class GeonamesClient {
     static base = 'http://api.geonames.org'
-    private username
+    private username, http
     GeonamesClient(username) {
-        this.username = username;    
+        this.username = username
+        this.http = new AsyncHTTPBuilder(
+            poolSize: 10,
+            uri: this.base)
     }
 
     def numZipCodesForPlace (place, country = 'US') {
-        def http = new HTTPBuilder(this.base)
-        http.request(GET, XML) {
-            uri.path = '/postalCodeSearch'
-            uri.query = [placename:place, country:country, style:'SHORT', 
-                maxRows:'1', username:this.username]
-        
-            response.success = { resp, json ->
-                println resp.statusLine
+        return this.http.get(path:'/postalCodeSearch', contentType: XML,
+                        query: [placename:place, country:country, style:'SHORT', 
+                        maxRows:'1', username:this.username]) { resp, xml ->
+                xml.totalResultsCount.toString().asType(Integer)
             }
-
-  
-            response.failure = { resp ->
-                println "Unexpected error: ${resp.statusLine.statusCode} : ${resp.statusLine.reasonPhrase}"
-            } 
-        }
     }
 
 }
+

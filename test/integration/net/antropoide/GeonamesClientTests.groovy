@@ -1,22 +1,19 @@
 package net.antropoide
 
+import net.antropoide.GeonamesClient.*
 import static org.junit.Assert.*
 import org.junit.*
 
 class GeonamesClientTests {
 
-    @Before
-    void setUp() {
-        // Setup logic here
-    }
-
-    @After
-    void tearDown() {
-        // Tear down logic here
-    }
-
     @Test
-    void testSomething() {
-        fail "Implement me"
+    void testnumZipCodesForPlace() {
+        def client = new GeonamesClient('elventear')
+        def result = client.numZipCodesForPlace('MN')
+
+        while ( ! result.done ) {
+            Thread.sleep(500)
+        }
+        assert result.get() == 1084
     }
 }
