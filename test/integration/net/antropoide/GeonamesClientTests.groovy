@@ -11,9 +11,6 @@ class GeonamesClientTests {
         def client = new GeonamesClient('elventear')
         def numZipCodesState = { place, closure={it} -> 
                 def result = client.numZipCodesState(place, closure)
-                while ( ! result.done ) {
-                    Thread.sleep(500)
-                }
                 result.get()
             }
 
