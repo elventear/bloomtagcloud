@@ -15,11 +15,15 @@ class GeonamesClient {
             uri: this.base)
     }
 
-    def numZipCodesForPlace (place, country = 'US') {
+    def numZipCodesState (place, closure=null) {
         return this.http.get(path:'/postalCodeSearch', contentType: XML,
-                        query: [placename:place, country:country, style:'SHORT', 
+                        query: [placename:place, country:'US', style:'SHORT', 
                         maxRows:'1', username:this.username]) { resp, xml ->
-                xml.totalResultsCount.toString().asType(Integer)
+                def o = xml.totalResultsCount.toString().asType(Integer)
+                if (closure) {
+                    return closure(o)
+                }
+                return o
             }
     }
 

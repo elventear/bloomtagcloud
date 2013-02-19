@@ -7,10 +7,10 @@ import org.junit.*
 class GeonamesClientTests {
 
     @Test
-    void testnumZipCodesForPlace() {
+    void testNumZipCodesState() {
         def client = new GeonamesClient('elventear')
-        def numZipCodesForPlace = {
-                def result = client.numZipCodesForPlace(it)
+        def numZipCodesState = { place, closure={it} -> 
+                def result = client.numZipCodesState(place, closure)
                 while ( ! result.done ) {
                     Thread.sleep(500)
                 }
@@ -18,8 +18,10 @@ class GeonamesClientTests {
             }
 
         // Zip codes for Minnesota according to Geonames
-        assert numZipCodesForPlace('MN') == 1084
+        assert numZipCodesState('MN') == 1084
         // Unknwon place
-        assert numZipCodesForPlace('ajsdakjdaklsdjaksdjklasd') == 0
+        assert numZipCodesState('ajsdakjdaklsdjaksdjklasd') == 0
+        // Test with closure
+        assert numZipCodesState('MN'){it-1} == 1083
     }
 }
