@@ -19,7 +19,7 @@ class TagcloudController {
 
     def empty() {
         def futures = []
-        def state_count = [:]
+        def state_count = new TreeMap()
         this.states.each() { state -> 
              def future = this.geonames.numZipCodesState(state) { cnt ->
                 state_count[state] = cnt
@@ -29,7 +29,11 @@ class TagcloudController {
         }
         futures.each(){it.get()}
 
-        return [states: new TreeMap(state_count)]
+        def max_cnt = state_count.values().max()
+        def min_cnt = state_count.values().min()
+
+        return [states: state_count, max: max_cnt, min: min_cnt, 
+            max_height:48, min_height:12]
     }
 
     def primed() {
