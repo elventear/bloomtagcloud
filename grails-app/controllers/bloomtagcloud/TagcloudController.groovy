@@ -29,7 +29,7 @@ class TagcloudController {
         }
         futures.each(){it.get()}
 
-        return [states: state_count]
+        return [states: new TreeMap(state_count)]
     }
 
     def primed() {
