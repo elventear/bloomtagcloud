@@ -11,10 +11,9 @@ class TagcloudController {
     static state_count = null
 
     def index() {
-        if (this.state_count == null) {
-            return redirect(action: 'empty')
+        if (this.state_count != null) {
+            return redirect(action: 'primed')
         }
-        return redirect(action: 'primed')
     }
 
     def empty() {
@@ -28,14 +27,15 @@ class TagcloudController {
             futures.push(future)
         }
         futures.each(){it.get()}
+        this.state_count = state_count
+        return redirect(action: 'primed')
+    }
 
+    def primed() {
         def max_cnt = state_count.values().max()
         def min_cnt = state_count.values().min()
 
         return [states: state_count, max: max_cnt, min: min_cnt]
-    }
-
-    def primed() {
     }
 
     def clear() {
