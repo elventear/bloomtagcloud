@@ -1,6 +1,7 @@
 package bloomtagcloud
 
 import net.antropoide.GeonamesClient
+import groovy.transform.*
 
 class TagcloudController {
     static geonames = new GeonamesClient('elventear')
@@ -10,13 +11,18 @@ class TagcloudController {
         'PA','RI','SC','SD','TN','TX','UT','VT','VA','WA','WV','WI','WY']
     static state_count = null
 
+    @WithReadLock
     def index() {
         if (this.state_count != null) {
             return redirect(action: 'primed')
         }
     }
 
+    @WithWriteLock
     def empty() {
+        if (this.state_count != null) {
+            return redirect(action: 'primed')
+        }
         def futures = []
         def state_count = new TreeMap()
         this.states.each() { state -> 
@@ -28,16 +34,25 @@ class TagcloudController {
         }
         futures.each(){it.get()}
         this.state_count = state_count
-        return redirect(action: 'primed')
+       
+        def max_cnt = state_count.values().max()
+        def min_cnt = state_count.values().min()
+        
+        render(view: 'primed', model:[states: state_count, max: max_cnt, min: min_cnt])
     }
 
+    @WithReadLock
     def primed() {
+        if (this.state_count == null) {
+            return redirect(action: 'index')    
+        }
         def max_cnt = state_count.values().max()
         def min_cnt = state_count.values().min()
 
         return [states: state_count, max: max_cnt, min: min_cnt]
     }
 
+    @WithWriteLock
     def clear() {
         this.state_count = null
         return redirect(action: 'index')    

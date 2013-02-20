@@ -18,7 +18,7 @@
             <%}%>
         </ul>
         <div class="center">
-            <button class="btn-large" onClick="window.location.href=window.location.href+'/../clear'">Don't press me</button> 
+            <button class="btn-large" onClick="window.location.href='<%=createLink(action: 'clear')%>'">Don't press me</button> 
             <span class="btn-cap">Press the button to clear Tag Cloud</span>
         </div>
     </div>
