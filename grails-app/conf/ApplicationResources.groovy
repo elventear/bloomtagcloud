@@ -6,4 +6,9 @@ modules = {
     cloud {
         resource url:'css/cloud.css'    
     }
+    
+    bootstrap {
+        resource url:'css/bootstrap.css'    
+    }
+
 }
