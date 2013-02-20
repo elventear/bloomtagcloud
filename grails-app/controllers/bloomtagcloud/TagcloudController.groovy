@@ -32,8 +32,7 @@ class TagcloudController {
         def max_cnt = state_count.values().max()
         def min_cnt = state_count.values().min()
 
-        return [states: state_count, max: max_cnt, min: min_cnt, 
-            max_height:48, min_height:12]
+        return [states: state_count, max: max_cnt, min: min_cnt]
     }
 
     def primed() {
