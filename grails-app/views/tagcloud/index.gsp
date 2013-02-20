@@ -8,7 +8,7 @@
     <r:layoutResources/>
 </head>
 <body>
-    <div class="cloud center">
+    <div class="message center">
         <button class="btn-large" onClick="window.location.href='<%=createLink(action: 'empty')%>'">Press me</button> 
         <span class="btn-cap center">Press the button to load Tag Cloud</span>
     </div>

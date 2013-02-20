@@ -17,10 +17,10 @@
                 <li style="font-size:<%=height%>pt; font-weight:<%=weight%>"><%=state%></li>
             <%}%>
         </ul>
-        <div class="center">
-            <button class="btn-large" onClick="window.location.href='<%=createLink(action: 'clear')%>'">Don't press me</button> 
-            <span class="btn-cap">Press the button to clear Tag Cloud</span>
-        </div>
+    </div>
+    <div class="message center">
+        <button class="btn-large" onClick="window.location.href='<%=createLink(action: 'clear')%>'">Don't press me</button> 
+        <span class="btn-cap">Press the button to clear Tag Cloud</span>
     </div>
 </body>
 </html>

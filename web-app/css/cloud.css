@@ -4,4 +4,5 @@
  div.cloud ul {padding: 2px; line-height: 3em; text-align: center; margin: 0;}
  div.cloud li {display: inline; margin-left: 5px; margin-right: 5px;}
  button {background-color: #2aa198; color: #eee8d5; font-family: 'Ubuntu', sans-serif;}
- span.btn-cap {font-size: 32px; margin 5px;};
+ span.btn-cap {font-size: 32px; margin 5px;}
+ div.message {width: 80%;}
