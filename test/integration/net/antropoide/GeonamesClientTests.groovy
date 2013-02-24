@@ -21,4 +21,16 @@ class GeonamesClientTests {
         // Test with closure
         assert numZipCodesState('MN'){it-1} == 1083
     }
+
+    @Test
+    void testWrongUser() {
+        def client = new GeonamesClient('asjdkadjakljg')
+        try {
+            client.numZipCodesState('MN').get()
+        } catch (e) {
+            def cause = e.cause.cause
+            assert (cause) in GeonamesError
+            assert cause.message == "user does not exist."    
+        }
+    }
 }
