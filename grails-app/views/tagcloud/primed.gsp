@@ -11,10 +11,10 @@
     <div class="cloud center">
         <ul>
         <% states.each{ state, count -> %>
-            <% def (max_height, min_height, max_weight, min_weight) = [64, 16, 900, 100] %>
+            <% def (max_height, min_height, max_weight, min_weight) = [60, 12, 900, 100] %>
             <% def height=8*Math.round(((count-min)*(max_height-min_height)/(max-min)+min_height)/8)%>
             <% def weight=100*Math.round(((count-min)*(max_weight-min_weight)/(max-min)+min_weight)/100) %>
-                <li style="font-size:<%=height%>pt; font-weight:<%=weight%>"><%=state%></li>
+                <li style="font-size:<%=height%>pt; font-weight:<%=weight%>;"><%=state_names[state]%></li>
             <%}%>
         </ul>
     </div>
