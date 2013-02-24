@@ -23,8 +23,25 @@ class TagcloudControllerTests {
         controller.state_count = null
         controller.empty()
         assert view == '/tagcloud/primed'
-        assert model.states.keySet() == controller.states as Set
+        assert model.states.size() == controller.states.size()
         controller.empty()
         assert response.redirectedUrl == '/tagcloud/primed' 
+    }
+
+    void testPrimed() {
+        controller.state_count = null
+        controller.primed()
+        assert response.redirectedUrl == '/tagcloud/index'
+        controller.empty()
+        controller.primed()
+        assert view == '/tagcloud/primed'
+        assert model.states.size() == controller.states.size()
+    }
+
+    void testClear() {
+        controller.state_count = [:]
+        controller.clear()
+        assert controller.state_count == null
+        assert response.redirectedUrl == '/tagcloud/index'
     }
 }
