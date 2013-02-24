@@ -36,25 +36,42 @@ class TagcloudController {
         if (this.state_count != null) {
             return redirect(action: 'primed')
         }
-        def futures = []
+        
         def state_count = new TreeMap()
-        this.states.keySet().each() { state -> 
-             def future = this.geonames.numZipCodesState(state) { cnt ->
-                state_count[state] = cnt
-                cnt
+        def retry_count = 0
+        // Keep looping while we are under the max retries and state_count is 
+        // missing some of the states
+        while ((retry_count < 5) && (state_count.size() < this.states.size())) {
+            if (retry_count > 0) { sleep 1000 }
+            def futures = []
+
+            // Loop over states that are not in state_count and retrieve them
+            // using the Geonames API. When retrieved store them in state_count
+            this.states.keySet().minus(state_count.keySet()).each { state -> 
+                 def future = this.geonames.numZipCodesState(state) { cnt ->
+                    state_count[state] = cnt
+                    return cnt
+                }
+                futures.push(future)
             }
-            futures.push(future)
+
+            // retrieve state count from thread, in case of error, skip the value
+            try {
+                futures.each{it.get(5, TimeUnit.SECONDS)}
+            } catch (e) { }
+            retry_count++
         }
-        futures.each(){it.get(10, TimeUnit.SECONDS)}
-        if (state_count.size() != this.states.size()) {
+
+        if (state_count.size() < this.states.size()) {
             this.state_count = null
-            return render(view:'index', model:[error_msg:'There was a problem retrieving data']) 
+            return render(view:'index', model:[error_msg:'There was a problem retrieving data'])
         }
 
         def max_cnt = state_count.values().max()
         def min_cnt = state_count.values().min()
+        
         this.state_count = [states: state_count, max: max_cnt, min: min_cnt,
-                       state_names: this.states]
+                        state_names: this.states]
         
         render(view: 'primed', model: this.state_count)
     }
