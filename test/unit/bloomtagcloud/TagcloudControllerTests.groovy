@@ -5,7 +5,24 @@ import org.junit.*
 
 @TestFor(TagcloudController)
 class TagcloudControllerTests {
+    
+    private geonames 
+    void setUp() {
+        this.geonames = controller.geonames
+        def futureMock = [ get: { time, unit -> return 1 } ]        
+        controller.geonames = [
+            numZipCodesState: { place, closure=null ->
+                if (closure) { closure(1) }
+                futureMock 
+            } 
+        ] 
 
+    }
+    
+    void tearDown() {
+        controller.geonames = this.geonames
+    }
+    
     void testIndex() {
         controller.state_count = null
         controller.index()
