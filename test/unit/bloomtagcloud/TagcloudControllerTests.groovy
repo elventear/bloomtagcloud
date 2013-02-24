@@ -18,4 +18,13 @@ class TagcloudControllerTests {
         controller.index()
         assert response.redirectedUrl == '/tagcloud/primed' 
     }
+
+    void testEmpty() {
+        controller.state_count = null
+        controller.empty()
+        assert view == '/tagcloud/primed'
+        assert model.states.keySet() == controller.states as Set
+        controller.empty()
+        assert response.redirectedUrl == '/tagcloud/primed' 
+    }
 }
