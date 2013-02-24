@@ -3,9 +3,6 @@ package bloomtagcloud
 import grails.test.mixin.*
 import org.junit.*
 
-/**
- * See the API for {@link grails.test.mixin.web.ControllerUnitTestMixin} for usage instructions
- */
 @TestFor(TagcloudController)
 class TagcloudControllerTests {
 
@@ -43,5 +40,22 @@ class TagcloudControllerTests {
         controller.clear()
         assert controller.state_count == null
         assert response.redirectedUrl == '/tagcloud/index'
+    }
+
+    void testEmptyWithClientErrors() {
+        def geonames = controller.geonames
+        def futureMock = [ get: { time, unit -> throw new Exception('test error') } ]
+        // mock client
+        controller.geonames = [
+            numZipCodesState: { place, closure=null ->
+                futureMock 
+            } 
+        ] 
+
+        controller.empty()
+        controller.geonames = geonames
+        
+        assert view == '/tagcloud/index'
+        assert model.error_msg == 'There was a problem retrieving data' 
     }
 }
