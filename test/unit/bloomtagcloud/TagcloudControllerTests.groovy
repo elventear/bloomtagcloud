@@ -1,7 +1,5 @@
 package bloomtagcloud
 
-
-
 import grails.test.mixin.*
 import org.junit.*
 
@@ -11,7 +9,13 @@ import org.junit.*
 @TestFor(TagcloudController)
 class TagcloudControllerTests {
 
-    void testSomething() {
-       fail "Implement me"
+    void testIndex() {
+        controller.state_count = null
+        controller.index()
+        assert response.redirectedUrl == null
+        controller.empty()
+        assert controller.state_count != null
+        controller.index()
+        assert response.redirectedUrl == '/tagcloud/primed' 
     }
 }
