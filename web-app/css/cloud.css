@@ -6,3 +6,4 @@
  button {background-color: #2aa198; color: #eee8d5; font-family: 'Ubuntu', sans-serif;}
  span.btn-cap {font-size: 32px; margin 5px;}
  div.message {width: 80%;}
+ div.error-msg {width:80%; color: #dc322f; text-align: center;}

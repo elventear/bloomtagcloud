@@ -8,9 +8,14 @@
     <r:layoutResources/>
 </head>
 <body>
+    <div class="error-msg center">
+        <%=error_msg%>
+    </div>
     <div class="message center">
-        <button class="btn-large" onClick="window.location.href='<%=createLink(action: 'empty')%>'">Press me</button> 
-        <span class="btn-cap center">Press the button to load Tag Cloud</span>
+        <span class="center">
+            <button class="btn-large" onClick="window.location.href='<%=createLink(action: 'empty')%>'">Press me</button> 
+            <span style="width:50%; "class="btn-cap">Press the button to load Tag Cloud</span>
+        </span>
     </div>
 </body>
 </html>

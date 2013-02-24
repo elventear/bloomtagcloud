@@ -1,5 +1,6 @@
 package bloomtagcloud
 
+import java.util.concurrent.TimeUnit
 import net.antropoide.GeonamesClient
 import groovy.transform.*
 
@@ -44,15 +45,18 @@ class TagcloudController {
             }
             futures.push(future)
         }
-        futures.each(){it.get()}
-        this.state_count = state_count
-       
+        futures.each(){it.get(10, TimeUnit.SECONDS)}
+        if (state_count.size() != this.states.size()) {
+            this.state_count = null
+            return render(view:'index', model:[error_msg:'There was a problem retrieving data']) 
+        }
+
         def max_cnt = state_count.values().max()
         def min_cnt = state_count.values().min()
+        this.state_count = [states: state_count, max: max_cnt, min: min_cnt,
+                       state_names: this.states]
         
-        render(view: 'primed', 
-                model:[states: state_count, max: max_cnt, min: min_cnt,
-                       state_names: this.states])
+        render(view: 'primed', model: this.state_count)
     }
 
     @WithReadLock
@@ -60,11 +64,7 @@ class TagcloudController {
         if (this.state_count == null) {
             return redirect(action: 'index')    
         }
-        def max_cnt = state_count.values().max()
-        def min_cnt = state_count.values().min()
-
-        return [states: state_count, max: max_cnt, min: min_cnt, 
-                state_names: this.states]
+        return this.state_count 
     }
 
     @WithWriteLock

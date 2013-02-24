@@ -20,7 +20,7 @@ class GeonamesClient {
             poolSize: 10,
             uri: this.base)
         this.http.handler.failure = { resp ->
-           throw GeonamesError(resp.statusLine)
+            throw GeonamesError(resp.statusLine)
         }
 
     }
