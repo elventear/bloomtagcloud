@@ -12,10 +12,10 @@
         <%=error_msg%>
     </div>
     <div class="message center">
-        <span class="center">
-            <button class="btn-large" onClick="window.location.href='<%=createLink(action: 'empty')%>'">Press me</button> 
-            <span style="width:50%; "class="btn-cap">Press the button to load Tag Cloud</span>
-        </span>
+        <div class="btnlarge">
+            <button class="btn-large" onClick="window.location.href='<%=createLink(action: 'empty')%>'">Press me</button>
+        </div>
+        <div class="btn-cap">Press the button to load U.S. State word cloud</div>
     </div>
 </body>
 </html>

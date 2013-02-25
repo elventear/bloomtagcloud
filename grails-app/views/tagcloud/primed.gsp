@@ -19,8 +19,10 @@
         </ul>
     </div>
     <div class="message center">
-        <button class="btn-large" onClick="window.location.href='<%=createLink(action: 'clear')%>'">Don't press me</button> 
-        <span class="btn-cap">Press the button to clear Tag Cloud</span>
+        <div class="btnlarge">
+            <button class="btn-large" onClick="window.location.href='<%=createLink(action: 'clear')%>'">Don't press me</button> 
+        </div>
+        <div class="btn-cap">Press the button to clear Tag Cloud</div>
     </div>
 </body>
 </html>
