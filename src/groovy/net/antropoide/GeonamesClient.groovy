@@ -11,9 +11,13 @@ class GeonamesError extends Exception {
     }
 }
 
+/** Client interface for the geonames.org API */
 class GeonamesClient {
     static private base = 'http://api.geonames.org'
     private username, http
+    /** Constructor
+     * @param username      geonames.org user id as a String
+     * */
     GeonamesClient(username) {
         this.username = username
         this.http = new AsyncHTTPBuilder(
@@ -25,6 +29,11 @@ class GeonamesClient {
 
     }
 
+    /** Fetches asynchronously the number of Zip Codes within a state
+     * @param place         Sate abbreviation as String
+     * @param closure       Optional closure, to filter the results through
+     * @return              Returns a Future, that will have the count when done
+     * */
     def numZipCodesState (place, closure=null) {
         return this.http.get(path:'/postalCodeSearch', contentType: XML,
                         query: [placename:place, country:'US', style:'SHORT', 
